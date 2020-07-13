@@ -1,0 +1,15 @@
+{
+  "name": "burningreport",
+  "version": "1.0.0",
+  "description": "Отчеты обжиговыго цеха о состоянии печей",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pavel Gordeev <pavelgq@yandex.ru>",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  }
+}
