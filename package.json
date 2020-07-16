@@ -4,12 +4,21 @@
   "description": "Отчеты обжиговыго цеха о состоянии печей",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devserver": "nodemon ./server/index.js",
+    "runserver": "node ./server/index.js"
   },
   "author": "Pavel Gordeev <pavelgq@yandex.ru>",
   "license": "ISC",
   "devDependencies": {
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "@frangiskos/mssql": "^0.4.0",
+    "express": "^4.17.1",
+    "msnodesqlv8": "^1.1.8",
+    "mssql": "^6.2.0",
+    "nodemon": "^2.0.4"
   }
 }
