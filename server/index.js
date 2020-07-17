@@ -28,16 +28,23 @@ app.listen(PORT, HOSTNAME, () => {
     console.log(`Server running at ${serverAddress}/`);
 });
 
+app.use((req, res, next) => {
+    res.header(`Access-Control-Allow-Origin`, `*`);
+    res.header(`Access-Control-Allow-Headers`, `Origin, X-Requested-With, Content-Type, Accept`);
+    //res.header('Content-Type', 'form-data')
+    next();
+  });
+
 app.get('/data', async function (req, res) {
     sql.connect(sqlConfig, function (err) {
         if (err) console.log(err);
         let request = new sql.Request();
-        request.query('select * from Sector', function (err, resp) {
+        request.query('select * from Person', function (err, resp) {
             if (err) {
                 console.log(err);
             };
-            console.log(resp);
-            res.json(resp); // результат в формате JSON
+            console.log(resp.recordset);
+            res.json(resp.recordset); // результат в формате JSON
             sql.close(); // закрываем соединение с базой данных
         });
     });
