@@ -1,24 +1,50 @@
 {
-  "name": "burningreport",
-  "version": "1.0.0",
+  "name": "burning-report",
+  "version": "0.1.0",
+  "private": true,
   "description": "Отчеты обжиговыго цеха о состоянии печей",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "devserver": "nodemon ./server/index.js",
-    "runserver": "node ./server/index.js"
-  },
   "author": "Pavel Gordeev <pavelgq@yandex.ru>",
-  "license": "ISC",
-  "devDependencies": {
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+  "scripts": {
+    "devserver": "nodemon ./server/index.js",
+    "runserver": "node ./server/index.js",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@frangiskos/mssql": "^0.4.0",
+    "core-js": "^3.6.5",
+    "vue": "^2.6.11",
     "express": "^4.17.1",
     "msnodesqlv8": "^1.1.8",
     "mssql": "^6.2.0",
     "nodemon": "^2.0.4"
-  }
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.4.0",
+    "@vue/cli-plugin-eslint": "~4.4.0",
+    "@vue/cli-service": "~4.4.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }
