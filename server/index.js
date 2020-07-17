@@ -35,11 +35,11 @@ app.use((req, res, next) => {
     next();
   });
 
-app.get('/data', async function (req, res) {
+app.get('/data/:name', async function (req, res) {
     sql.connect(sqlConfig, function (err) {
         if (err) console.log(err);
         let request = new sql.Request();
-        request.query('select * from Person', function (err, resp) {
+        request.query(`select * from ${req.params.name}`, function (err, resp) {
             if (err) {
                 console.log(err);
             };
@@ -49,3 +49,4 @@ app.get('/data', async function (req, res) {
         });
     });
 });
+

@@ -1,9 +1,17 @@
 <template>
     <div class="v-table">
         <div class="v-table__header">
-            <p>id</p>
-            <p>Name</p>
-            <p>LastName</p>
+            <p @click="sortByNum">ID 
+                <img src="unfold_more.svg" alt="Vue Logo" height="15" width="18">
+                </p>
+            <p @click="sortByString">First_Name
+                <img src="unfold_more.svg" alt="Vue Logo" height="15" width="18">
+               
+            </p>
+            <p @click="sortByString">Last_Name
+                <img src="unfold_more.svg" alt="Vue Logo" height="15" width="18">
+               
+            </p>
         </div>
         <div class="v-table__body">
             <v-table-row 
@@ -17,6 +25,7 @@
             <div class="page"
                 v-for="page in pages"
                 :key="page"
+                :class="{'page__selected': page === pageNumber}"
                 @click="pageClick(page)"
             >{{page}}</div>
         </div>
@@ -60,6 +69,15 @@
         methods: {
             pageClick(page) {
                 this.pageNumber = page;
+            },
+            sortByNum(event) {
+                const name = event.target.closest("P").outerText;
+                console.log(name)
+                this.users_data.sort((a, b) => (a[name])>(b[name]) ? 1 : -1);
+            },
+            sortByString(event) {
+                const name = event.target.closest("P").outerText;
+                this.users_data.sort((a, b) => (a[`${name}`]).localeCompare(b[name]));
             }
         }
         }
@@ -75,9 +93,13 @@
         justify-content: space-around;
     }
     .v-table__header p {
+        display: flex;
+        
+        align-items: center;
         flex-basis: 25%;
         padding: 8px 16px;
         text-align: left;
+        cursor: pointer;
     }
 
     .v-table__pagination {
@@ -96,5 +118,12 @@
     .page:hover {
         background: #aeaeae;
         cursor: pointer;
+        color: #ffffff;
+    }
+
+    .page__selected {
+        background: #aeaeae;
+        cursor: pointer;
+        color: #ffffff;
     }
 </style>

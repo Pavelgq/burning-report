@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-   <v-table
+   <v-table @waitNewData="sendData"
      :users_data = "USERS"
    />
   </div>
@@ -8,7 +8,7 @@
 
 <script>
 import {mapActions, mapGetters} from 'vuex';
-import vTable from './components/table/v-table';
+import vTable from './components/table-part/v-table';
 
 export default {
   name: 'App',
@@ -23,7 +23,10 @@ export default {
   methods: {
       ...mapActions([
         'GET_USERS_FROM_API'
-      ])
+      ]),
+      sendData(event) {
+        console.log(event);
+      }
     },
   mounted() {
     this.GET_USERS_FROM_API()
