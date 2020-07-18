@@ -19,6 +19,7 @@
     "mssql": "^6.2.0",
     "nodemon": "^2.0.4",
     "vue": "^2.6.11",
+    "vue-router": "^3.3.4",
     "vuex": "3.5.1"
   },
   "devDependencies": {
