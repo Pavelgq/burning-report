@@ -37,7 +37,7 @@
 
 
     export default {
-        name: "v-table",
+        name: "v-table-report",
         components: {
             vTableRow
         },
@@ -83,31 +83,8 @@
         }
 </script>
 
-<style>
-    .v-table {
-        max-width: 900px;
-        margin: 0 auto;
-    }
-    .v-table__header {
-        display: flex;
-        justify-content: space-around;
-    }
-    .v-table__header p {
-        display: flex;
-        
-        align-items: center;
-        flex-basis: 25%;
-        padding: 8px 16px;
-        text-align: left;
-        cursor: pointer;
-    }
-
-    .v-table__pagination {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 30px;
-    }
+<style scoded>
+  
 
     .page {
         padding: 8px;

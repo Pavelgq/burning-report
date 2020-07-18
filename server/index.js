@@ -39,7 +39,14 @@ app.get('/data/:name', async function (req, res) {
     sql.connect(sqlConfig, function (err) {
         if (err) console.log(err);
         let request = new sql.Request();
-        request.query(`select * from ${req.params.name}`, function (err, resp) {
+        const params = req.query.p.split(',');
+        console.log(params);
+        let fields = '';
+        params.forEach(element => {
+            fields += `, ${req.params.name}.${element} `; 
+        });
+         console.log(fields)
+        request.query(`select Person.first_name, Person.last_name ${fields} from ${req.params.name}, Person WHERE ${req.params.name}.Person_ID = Person.ID`, function (err, resp) {
             if (err) {
                 console.log(err);
             };
@@ -49,4 +56,7 @@ app.get('/data/:name', async function (req, res) {
         });
     });
 });
-
+/**
+ * Person.First_Name, Person.Last_Name, Burning.Date  FROM Burning, Person
+    WHERE Burning.Person_ID = Person.ID
+ */

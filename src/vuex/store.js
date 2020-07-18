@@ -10,7 +10,7 @@ const store = new Vuex.Store({
     },
     actions: {
         GET_USERS_FROM_API({commit}) {
-            return axios('http://localhost:3000/data/person', {
+            return axios('http://localhost:3000/data/Burning?p=lot_id,number_of_items,furnace_number,tv,tn,defect_t,defect_s,defect_p,date,changes', {
                 method: 'GET'
             })
             .then((response) => {

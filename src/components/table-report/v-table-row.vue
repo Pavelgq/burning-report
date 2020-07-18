@@ -26,14 +26,7 @@
 </script>
 
 <style>
-    .v-table-row {
-        display: flex;
-        justify-content: space-around;
-    }
+ 
 
-    .row {
-        flex-basis: 25%;
-        padding: 8px 16px;
-        text-align: left;
-    }
+   
 </style>
