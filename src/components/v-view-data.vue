@@ -1,10 +1,9 @@
 <template>
     <main class="main">
-        Представление    
-    <v-table-part  @waitNewData="sendData" :users_data="USERS"></v-table-part>
-    
-    <v-table-report></v-table-report>
-    
+        <h2>Представление</h2>    
+        <v-menu></v-menu>
+        <v-table-part  @waitNewData="sendData" :part_data="PART_DATA"></v-table-part>
+        <v-table-report @waitNewData="sendData" :person_data="PERSON_DATA"></v-table-report>
     </main>
 </template>
 
@@ -12,27 +11,32 @@
 import { mapActions, mapGetters } from 'vuex';
 import vTablePart from './table-part/v-table-part';
 import vTableReport from './table-report/v-table-report';
+import vMenu from './view/v-menu'
 export default {
     name: 'v-view-data',
     components: {
         vTablePart,
         vTableReport,
+        vMenu
     },
     computed: {
         ...mapGetters([
-            'USERS'
+            'PART_DATA',
+            'PERSON_DATA'
         ])
     },
     methods: {
         ...mapActions([
-            'GET_USERS_FROM_API'
+            'GET_PART_DATA_FROM_API',
+            'GET_PERSON_DATA_FROM_API'
         ]),
         sendData(event) {
             console.log(event);
         }
     },
     mounted() {
-        this.GET_USERS_FROM_API()
+        this.GET_PART_DATA_FROM_API(),
+        this.GET_PERSON_DATA_FROM_API()
     }
 }
 </script>

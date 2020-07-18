@@ -37,11 +37,11 @@
     
                     </th>
     
-                    <th>T<sup>в</sup>
+                    <th>T<sub>в</sub>
     
                     </th>
     
-                    <th>T<sup>н</sup>
+                    <th>T<sub>н</sub>
     
                     </th>
     
@@ -91,11 +91,14 @@
     
             <tbody class="v-table__body">
     
-                <v-table-row v-for="row in pageinatedUsers" :key="row.id" :row_data="row" />
+                <v-table-row v-for="row in pageinatedRows" :key="row.id" :row_data="row" />
     
             </tbody>
     
-            <div class="v-table__pagination">
+            
+    
+        </table>
+    <div class="v-table__pagination">
     
                 <div class="page"
     
@@ -110,9 +113,6 @@
                 >{{page}}</div>
     
             </div>
-    
-        </table>
-    
     </section>
 </template>
 
@@ -126,7 +126,7 @@ export default {
         vTableRow
     },
     props: {
-        users_data: {
+        part_data: {
             type: Array,
             default: () => {
                 return []
@@ -136,33 +136,33 @@ export default {
     data() {
 
         return {
-            usersPerPage: 5,
+            rowPerPage: 10,
             pageNumber: 1
         };
     },
     computed: {
         pages() {
-            return Math.ceil(this.users_data.length / this.usersPerPage);
+            return Math.ceil(this.part_data.length / this.rowPerPage);
         },
-        pageinatedUsers() {
-            let from = (this.pageNumber - 1) * this.usersPerPage;
-            let to = from + this.usersPerPage;
-            return this.users_data.slice(from, to);
+        pageinatedRows() {
+            let from = (this.pageNumber - 1) * this.rowPerPage;
+            let to = from + this.rowPerPage;
+            return this.part_data.slice(from, to);
         }
     },
     methods: {
         pageClick(page) {
             this.pageNumber = page;
-            this.$emit('waitNewData', { numberPage: this.pageNumber, pageOnScreen: this.usersPerPage });
+            this.$emit('waitNewData', { numberPage: this.pageNumber, pageOnScreen: this.rowPerPage });
         },
         sortByNum(event) {
             const name = event.target.closest("P").outerText;
             console.log(name)
-            this.users_data.sort((a, b) => (a[name]) > (b[name]) ? 1 : -1);
+            this.part_data.sort((a, b) => (a[name]) > (b[name]) ? 1 : -1);
         },
         sortByString(event) {
             const name = event.target.closest("P").outerText;
-            this.users_data.sort((a, b) => (a[`${name}`]).localeCompare(b[name]));
+            this.part_data.sort((a, b) => (a[`${name}`]).localeCompare(b[name]));
         }
     }
 }
@@ -170,6 +170,7 @@ export default {
 
 <style>
 .v-table {
+    
     border-collapse: collapse;
     width: 1350px;
     position: relative;
