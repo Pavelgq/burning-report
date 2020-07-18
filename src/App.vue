@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    Основа
+    <h1>Основа</h1> 
     <router-view />
    
   </div>
