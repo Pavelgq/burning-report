@@ -1,88 +1,40 @@
 <template>
     <section class="data">
-    
         <table class="v-table">
-    
             <thead >
-    
                 <tr class="v-table__header">
-    
                     <th>Оператор
-    
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-    
+                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
                     </th>
-    
-    
-    
                     <th>Партия
-    
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-    
-    
-    
+                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
                     </th>
-    
                     <th>Всего
-    
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-    
-    
-    
+                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
                     </th>
-    
                     <th>№ печи
-    
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-    
+                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
                     </th>
-    
                     <th>T<sub>в</sub>
-    
                     </th>
-    
                     <th>T<sub>н</sub>
-    
                     </th>
-    
                     <th>Трещины
-    
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-    
-    
-    
+                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
                     </th>
-    
                     <th>Сколы
-    
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-    
-    
-    
+                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
                     </th>
-    
                     <th>Прыщи
-    
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-    
-    
-    
+                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
                     </th>
     
                     <th>Дата
-    
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-    
-    
-    
+                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
                     </th>
     
                     <th class="row__comment">Комментарий
-    
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-    
-    
-    
+                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
                     </th>
     
                 </tr>
@@ -94,24 +46,14 @@
                 <v-table-row v-for="row in pageinatedRows" :key="row.id" :row_data="row" />
     
             </tbody>
-    
-            
-    
         </table>
     <div class="v-table__pagination">
-    
                 <div class="page"
-    
                     v-for="page in pages"
-    
                     :key="page"
-    
                     :class="{'page__selected': page === pageNumber}"
-    
                     @click="pageClick(page)"
-    
                 >{{page}}</div>
-    
             </div>
     </section>
 </template>
@@ -176,9 +118,14 @@ export default {
     position: relative;
 }
 
+.v-table__sort {
+    width: 10px;
+    height: 10px;
+}
+
 th,
 td {
-    padding: 10px;
+    padding: 6px;
     background-color: #fff;
 }
 
@@ -188,7 +135,7 @@ th {
     background-color: #4e6a85;
     color: #fff;
     z-index: 2;
-    width: 150px;
+    width: 200px;
 }
 
 .v-table__body tr:hover {

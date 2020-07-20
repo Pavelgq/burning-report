@@ -1,10 +1,13 @@
 const express = require('express'); // оснастка веб сервера
 const sql = require('mssql/msnodesqlv8'); // клиент для MS SQL Server
-
+const async = require(`./utils/async`);
+const bodyParser = require('body-parser');
+const runQuery = require('./database/connect');
 
 const app = express();
 
 app.use(express.static(`src`));
+app.use(bodyParser.json());
 // строка для подключения к базе данных.
 const sqlConfig = {
     user: 'sa',
@@ -56,6 +59,26 @@ app.get('/data/:name', async function (req, res) {
         });
     });
 });
+app.post('/part-report/:name', async (async (req, res) => {
+    const data = await req.body;
+    const dbname = req.params.name;
+    const query = `select Person.Login, Person.Password from Person where Person.Login='${data.login}' and Person.Password='${data.password}'`;
+    const answer = await runQuery(query).catch(err => {
+        console.log(err);
+    });
+    if (answer.recordset.length > 0) {
+                console.log('Логин и пароль верны');
+                query = `insert `
+                await runQuery(query).catch(err => {
+                    console.log(err);
+                });
+                //Записываем в базку
+            }else {
+                console.log('Логин и пароль не верны');
+                res.json({error: 'user not find'});
+                //Отвечаем ошибкой
+            }
+}));
 /**
  * Person.First_Name, Person.Last_Name, Burning.Date  FROM Burning, Person
     WHERE Burning.Person_ID = Person.ID
