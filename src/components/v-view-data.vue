@@ -1,9 +1,12 @@
 <template>
     <main class="main">
         <h2>Представление</h2>    
-        <v-menu></v-menu>
-        <v-table-part  @waitNewData="sendData" :part_data="PART_DATA"></v-table-part>
-        <v-table-report @waitNewData="sendData" :person_data="PERSON_DATA"></v-table-report>
+        <v-menu @changeTab='onTab'></v-menu>
+        <v-part-report v-if="currentTab == 'part_report'"></v-part-report>
+        <v-person-report v-if="currentTab == 'person_report'"></v-person-report>
+        <v-table-part v-if="currentTab == 'part'"  @waitNewData="sendData" :part_data="PART_DATA"></v-table-part>
+        <v-table-report v-if="currentTab == 'person'" @waitNewData="sendData" :person_data="PERSON_DATA"></v-table-report>
+        
     </main>
 </template>
 
@@ -11,13 +14,23 @@
 import { mapActions, mapGetters } from 'vuex';
 import vTablePart from './table-part/v-table-part';
 import vTableReport from './table-report/v-table-report';
+import vPartReport from './forms/v-part-report';
+import vPersonReport from './forms/v-person-report';
+
 import vMenu from './view/v-menu'
 export default {
     name: 'v-view-data',
     components: {
         vTablePart,
         vTableReport,
-        vMenu
+        vMenu,
+        vPartReport,
+        vPersonReport
+    },
+    data() {
+        return {
+            currentTab: 'part'
+        }
     },
     computed: {
         ...mapGetters([
@@ -32,6 +45,9 @@ export default {
         ]),
         sendData(event) {
             console.log(event);
+        },
+        onTab(data) {
+            this.currentTab = data.currentTab
         }
     },
     mounted() {

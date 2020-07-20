@@ -19,7 +19,7 @@ const store = new Vuex.Store({
             })
         },
         GET_PERSON_DATA_FROM_API({commit}) {
-            return axios('http://localhost:3000/data/Burning_person?p=zone_1,zone_2,zone_3,zone_4_up,zone_4_down,zone_5_up,zone_5_down,zone_6_up,zone_6_down,zone_7_up,zone_7_down,zone_8,date', {
+            return axios('http://localhost:3000/data/Burning_person?p=furnace_number,zone_1,zone_2,zone_3,zone_4_up,zone_4_down,zone_5_up,zone_5_down,zone_6_up,zone_6_down,zone_7_up,zone_7_down,zone_8,date', {
                 method: 'GET'
             })
             .then((response) => {

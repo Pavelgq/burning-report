@@ -6,12 +6,12 @@
                     <th>Оператор
                         <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
                     </th>
+                    <th>№печи
+                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
+                    </th>
                     <th>№1    
                         <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-    
-    
                     </th>
-    
                     <th>№2
     
                         <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">

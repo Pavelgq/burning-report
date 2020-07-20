@@ -3,7 +3,7 @@
         
         
         <td class="row row__name">{{row_data.first_name}} {{row_data.last_name}}</td>
-
+        <td class="row row__burn-id">{{row_data.furnace_number}}</td>
         <td class="row row__z1">{{row_data.zone_1}}</td>
         <td class="row row__z2">{{row_data.zone_2}}</td>
         <td class="row row__z3">{{row_data.zone_3}}</td>
