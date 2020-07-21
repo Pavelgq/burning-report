@@ -1,13 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
+//import { response } from 'express';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
         partData: [],
-        personData: []
+        personData: [],
+        partReport: {},
+        personReport: {}
     },
     actions: {
         GET_PART_DATA_FROM_API({commit}) {
@@ -25,6 +28,26 @@ const store = new Vuex.Store({
             .then((response) => {
                 commit('SET_PERSON_DATA_TO_VUEX', response.data)
             })
+        },
+        POST_PART_REPORT_TO_API({commit}, data) {
+            return axios('http://localhost:3000/report/Burning_part', {
+                method: 'POST',
+                data: data
+            })
+            .then((response) => {
+                commit('SET_PART_REPORT_TO_VUEX', response.data)
+            });
+
+        },
+        POST_PERSON_REPORT_TO_API({commit}, data) {
+            return axios('http://localhost:3000/report/Burning_person', {
+                method: 'POST',
+                data: data
+            })
+            .then((response) => {
+                commit('SET_PERSON_REPORT_TO_VUEX', response.data)
+            });
+
         }
     },
     mutations: {
@@ -33,6 +56,12 @@ const store = new Vuex.Store({
         },
         SET_PERSON_DATA_TO_VUEX: (state, personData)=> {
             state.personData = personData
+        },
+        SET_PART_REPORT_TO_VUEX: (state, partReport) => {
+            state.partReport = partReport
+        },
+        SET_PERSON_REPORT_TO_VUEX: (state, personReport) => {
+            state.personReport = personReport
         }
     },
     getters: {
@@ -41,6 +70,12 @@ const store = new Vuex.Store({
         },
         PERSON_DATA(state) {
             return state.personData;
+        },
+        PART_REPORT(state) {
+            return state.partReport;
+        },
+        PERSON_REPORT(state) {
+            return state.personReport;
         }
 
     }
