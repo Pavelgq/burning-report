@@ -12,6 +12,9 @@
         <td class="row row__temp-up">{{row_data.tv}}</td>
         <td class="row row__temp-down">{{row_data.tn}}</td>
 
+        <td class="row row__temp-up">{{row_data.tv}}</td>
+        <td class="row row__temp-down">{{row_data.tn}}</td>
+
         <td class="row row__defects">{{row_data.defect_t}}</td>
         <td class="row row__defects">{{row_data.defect_s}}</td>
         <td class="row row__defects">{{row_data.defect_p}}</td>
