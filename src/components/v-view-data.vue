@@ -1,6 +1,5 @@
 <template>
     <main class="main">
-        <h2>Представление</h2>    
         <v-menu @changeTab='onTab'></v-menu>
         <v-part-report v-if="currentTab == 'part_report'"></v-part-report>
         <v-person-report v-if="currentTab == 'person_report'"></v-person-report>
