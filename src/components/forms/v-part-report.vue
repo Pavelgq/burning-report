@@ -1,44 +1,39 @@
 <template>
     <section class="part-report">
         <h2>Создание отчета по партии</h2>
-        <form action="/part-report" method="post">
-            <fieldset>
-                <legend>
+        <form action="/part-report" method="post" class='form'>
+            <fieldset class="form__field field">
+                <legend class="field__legend">
                     Оператор:
                 </legend>
-                <input type="text" name="login" id="login" placeholder="Логин">
-
-                <input type="password" name="password" id="password" placeholder="Пароль">
-
-
+                <input type="text" class="field__text" name="login" v-model="login" placeholder="Логин">
+                <input type="password" class="field__text" name="password" v-model="password" placeholder="Пароль">
             </fieldset>
-            <fieldset>
-                <legend>Партия</legend>
-
-                <input type="text" name="" id="part-number" placeholder="№ партии">
-                <input type="text" name="" id="fur-number" placeholder="№ печи">
-                <input type="text" name="" id="quantity" placeholder="Количество">
-
-                
+            <fieldset class="form__field field">
+                <legend class="field__legend">Партия</legend>
+                <input type="text" class="field__text" name="" v-model="pack.aPartNumber" placeholder="№ партии">
+                <input type="text" class="field__text" name="" v-model="pack.bQuantity" placeholder="Количество">
+                <input type="text" class="field__text" name="" v-model="pack.cFurNumber" placeholder="№ печи">
             </fieldset>
-            <fieldset>
-                <legend>Режим</legend>
-                <input type="text" name="" id="zone-up" placeholder="t Верхняя зона">
-                <input type="text" name="" id="zone-down" placeholder="t Нижняя зона">
+            <fieldset class="form__field field">
+                <legend class="field__legend">Режим</legend>
+                <input type="text" class="field__text" name="" v-model="pack.dZoneUp" placeholder="t Верхняя зона">
+                <input type="text" class="field__text" name="" v-model="pack.eZoneDown" placeholder="t Нижняя зона">
+                <input type="text" class="field__text" name="" v-model="pack.fZoneUp1" placeholder="t Верхняя зона">
+                <input type="text" class="field__text" name="" v-model="pack.gZoneDown1" placeholder="t Нижняя зона">
             </fieldset>
-
-            <fieldset>
-                <legend>Брак</legend>
-                <input type="text" name="" id="defect-t" placeholder="Трещины">
-                <input type="text" name="" id="defect-s" placeholder="Сколы">
-                <input type="text" name="" id="defect-p" placeholder="Прыщи">
+            <fieldset class="form__field field">
+                <legend class="field__legend">Брак</legend>
+                <input type="text" class="field__text" name="" v-model="pack.hDefectT" placeholder="Трещины">
+                <input type="text" class="field__text" name="" v-model="pack.iDefectS" placeholder="Сколы">
+                <input type="text" class="field__text" name="" v-model="pack.jDefectP" placeholder="Прыщи">
             </fieldset>
-            <fieldset>
-                <legend>Особые отметки</legend>
-                <textarea  id="comment" placeholder="Выключение электричества, поломки и прочее..."></textarea>
+            <fieldset class="form__field field">
+                <legend class="field__legend">Особые отметки</legend>
+                <textarea class="field__area" v-model="pack.kComment" placeholder="Выключение электричества, поломки и прочее..."></textarea>
             </fieldset>
 
-            <button class="">Создать отчет</button>
+            <button type="button" class="" @click="send">Создать отчет</button>
         </form>
     </section>
     
@@ -46,3 +41,36 @@
     
 
 </template>
+
+<script>
+export default {
+    name: 'v-part-report',
+    data() {
+        return {
+        login: '',
+        password: '',
+        pack: {}
+        
+        }
+  },
+  methods: {
+    send () {
+        let item = {
+              login: this.login,
+              password: this.password,
+              pack: this.pack
+          };
+        this.$store.dispatch('POST_PART_REPORT_TO_API', item)
+    }
+  },
+  action: {
+    //   sendReport() {
+    //       ;
+    //   }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>

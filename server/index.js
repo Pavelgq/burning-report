@@ -3,6 +3,7 @@ const sql = require('mssql/msnodesqlv8'); // клиент для MS SQL Server
 const async = require(`./utils/async`);
 const bodyParser = require('body-parser');
 const runQuery = require('./database/connect');
+const moment = require('moment');
 
 const app = express();
 
@@ -53,33 +54,45 @@ app.get('/data/:name', async function (req, res) {
             if (err) {
                 console.log(err);
             };
-            console.log(resp.recordset);
+           
             res.json(resp.recordset); // результат в формате JSON
             sql.close(); // закрываем соединение с базой данных
         });
     });
 });
-app.post('/part-report/:name', async (async (req, res) => {
+app.post('/report/:name', async (async (req, res) => {
     const data = await req.body;
     const dbname = req.params.name;
-    const query = `select Person.Login, Person.Password from Person where Person.Login='${data.login}' and Person.Password='${data.password}'`;
+    const params = data.pack
+    console.log(params);
+    let fields = '';
+    for (const key in params) {
+        
+        fields += `, '${params[key]}'`;
+        
+    }
+     console.log(fields)
+    let query = `select Person.ID from Person where Person.Login='${data.login}' and Person.Password='${data.password}'`;
     const answer = await runQuery(query).catch(err => {
         console.log(err);
     });
     if (answer.recordset.length > 0) {
                 console.log('Логин и пароль верны');
-                query = `insert `
-                await runQuery(query).catch(err => {
+                let personID = answer.recordset[0].ID;
+
+                // Узнаем ID пользователя
+                query = `insert ${dbname} VALUES ('${personID}', '${moment().format()}' ${fields})`;
+                
+                console.log(query);
+                let result = await runQuery(query).catch(err => {
                     console.log(err);
                 });
-                //Записываем в базку
+                res.json(result);
+
             }else {
                 console.log('Логин и пароль не верны');
                 res.json({error: 'user not find'});
                 //Отвечаем ошибкой
             }
 }));
-/**
- * Person.First_Name, Person.Last_Name, Burning.Date  FROM Burning, Person
-    WHERE Burning.Person_ID = Person.ID
- */
+
