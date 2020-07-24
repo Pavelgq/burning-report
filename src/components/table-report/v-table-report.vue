@@ -125,6 +125,6 @@ export default {
 }
 </script>
 
-<style scoded>
+<style>
 
 </style>

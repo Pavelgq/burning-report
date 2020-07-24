@@ -7,69 +7,68 @@
             <thead >
                 <tr class="v-table__header">
                     <th>
-                        <button class="v-table__button" id="name">Оператор</button>
+                        <button @click="sortByString" class="v-table__button" data-id="last_name">Оператор</button>
                     </th>
                     <th>
-                        <button class="v-table__button" id="name">Партия</button>
+                        <button @click="sortByString" class="v-table__button" data-id="lot_id">Партия</button>
                     </th>
                     <th>
-                        <button class="v-table__button" id="name">Всего</button>
+                        <button @click="sortByNum"  class="v-table__button" data-id="number_of_items">Всего</button>
                     </th>
                     <th>
-                        <button class="v-table__button" id="name">№ печи</button>
+                        <button @click="sortByNum" class="v-table__button" data-id="furnace_number">Печь</button>
                     </th>
-                    <th>T<sub>в</sub>
+                    <th>
+                        <button @click="sortByNum" class="v-table__button" data-id="tv">T<sub>в</sub></button>
                     </th>
-                    <th>T<sub>н</sub>
+                    <th>
+                        <button @click="sortByNum" class="v-table__button" data-id="tn">T<sub>н</sub></button>
+                    </th>
+                    <th>
+                        <button @click="sortByNum" class="v-table__button" data-id="tv">T<sub>в</sub></button>
+                    </th>
+                    <th>
+                        <button @click="sortByNum" class="v-table__button" data-id="tn">T<sub>н</sub></button>
                     </th>
 
-                    <th>T<sub>в</sub>
+                    <th>
+                        <button @click="sortByNum" class="v-table__button" data-id="defect_t">Трещины</button>
                     </th>
-                    <th>T<sub>н</sub>
+                    <th>
+                        <button @click="sortByNum" class="v-table__button" data-id="defect_s">Сколы</button>
                     </th>
-
-                    <th>Трещины
-                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
-                    </th>
-                    <th>Сколы
-                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
-                    </th>
-                    <th>Прыщи
-                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
+                    <th>
+                        <button @click="sortByNum" class="v-table__button" data-id="defect_p">Прыщи</button>
                     </th>
     
-                    <th>Дата
-                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
+                    <th>
+                        <button @click="sortByNum" class="v-table__button" data-id="data">Дата</button>
                     </th>
     
-                    <th class="row__comment">Комментарий
-                        <img class="v-table__sort" src="@/assets/unfold_more.svg" alt="Vue Logo">
+                    <th class="row__comment">
+                        <button @click="sortByString" class="v-table__button" data-id="changes">Комментарий</button>
                     </th>
-    
                 </tr>
-    
             </thead>
-    
             <tbody class="v-table__body">
     
-                <v-table-row v-for="row in pageinatedRows.slice().reverse()" :key="row.id" :row_data="row" />
+                <v-table-row v-for="row in pageinatedRows" :key="row.id" :row_data="row" />
     
             </tbody>
         </table>
-    <div class="v-table__pagination">
-                <div class="page"
-                    v-for="page in pages"
-                    :key="page"
-                    :class="{'page__selected': page === pageNumber}"
-                    @click="pageClick(page)"
-                >{{page}}</div>
-            </div>
+        <div class="v-table__pagination">
+            <div class="page"
+                v-for="page in pages"
+                :key="page"
+                :class="{'page__selected': page === pageNumber}"
+                @click="pageClick(page)"
+            >{{page}}</div>
+        </div>
     </section>
 </template>
 
 <script>
 import vTableRow from './v-table-row'
-
 
 export default {
     name: "v-table-part",
@@ -107,13 +106,19 @@ export default {
             this.$emit('waitNewData', { numberPage: this.pageNumber, pageOnScreen: this.rowPerPage });
         },
         sortByNum(event) {
-            const name = event.target.closest("P").outerText;
-            console.log(name)
+            const element = event.target.closest("BUTTON");
+            const name = element.getAttribute("data-id");
             this.part_data.sort((a, b) => (a[name]) > (b[name]) ? 1 : -1);
         },
         sortByString(event) {
-            const name = event.target.closest("P").outerText;
-            this.part_data.sort((a, b) => (a[`${name}`]).localeCompare(b[name]));
+            const element = event.target.closest("BUTTON");
+            const name = element.getAttribute("data-id");
+            console.log(name)
+            this.part_data.sort((a, b) => {
+                const str = a[name] || ' ';
+                const str1 = b[name] || ' ';
+                    str.localeCompare(str1);
+            });
         }
     }
 }
@@ -129,7 +134,6 @@ export default {
 .v-table__sort {
     width: 12px;
     height: 12px;
-
 }
 
 th,
@@ -145,7 +149,6 @@ th {
     color: #fff;
     z-index: 2;
     width: 200px;
-
     border-left: 1px solid #dddddd;
 }
 
@@ -155,7 +158,7 @@ th {
 
 td {
     border-bottom: 1px solid #dddddd;
-     border-right: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;
 }
 
 td:first-child {
@@ -194,12 +197,13 @@ td:first-child {
 }
 
 .v-table__button {
-  background: #fff;
-  border: 1px solid #eee;
+  background-color: transparent;
+  border: 1px solid #eeeeee6e;
   cursor: pointer;
   overflow: hidden;
   padding: .75em 2.25em .75em 1em;
   position: relative;
+  color: #ffffff;
 }
 
 .v-table__button:before,

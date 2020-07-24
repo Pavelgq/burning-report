@@ -148,6 +148,7 @@ input[type=text], input[type=password] {
     &__field {
         display: flex;
         flex-grow: 1;
+        border: 1 px solid #eeeeee;
         border-radius: 10px;
         text-align: left;
         font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
