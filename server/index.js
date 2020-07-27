@@ -4,7 +4,7 @@ const async = require(`./utils/async`);
 const bodyParser = require('body-parser');
 const runQuery = require('./database/connect');
 const moment = require('moment');
-
+const socket = require('./modbus/socket');
 const app = express();
 
 app.use(express.static(`src`));
@@ -96,3 +96,6 @@ app.post('/report/:name', async (async (req, res) => {
             }
 }));
 
+
+
+socket();
