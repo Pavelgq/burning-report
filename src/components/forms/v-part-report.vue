@@ -158,7 +158,46 @@ input[type=text], input[type=password] {
             // outline-radius: 5px;
         }
     }
+
+    &__group {
+
+        &--error {
+            color: #f04124;
+            border-color: #f79483;
+            
+            animation-name: shakeError;
+            animation-fill-mode: forwards;
+            animation-duration: .6s;
+            animation-timing-function: ease-in-out;
+
+
+        }
+
+        &--error + .error {
+            display: block;
+            color: #f57f6c; 
+        }
+    }
 }
+
+@keyframes shakeError {
+  0% {
+    transform: translateX(0); }
+  15% {
+    transform: translateX(0.375rem); }
+  30% {
+    transform: translateX(-0.375rem); }
+  45% {
+    transform: translateX(0.375rem); }
+  60% {
+    transform: translateX(-0.375rem); }
+  75% {
+    transform: translateX(0.375rem); }
+  90% {
+    transform: translateX(-0.375rem); }
+  100% {
+    transform: translateX(0); } }
+
 
 .field {
     display: flex;
