@@ -1,8 +1,64 @@
 <template>
-    <div>Домашняя
-        <!-- <router-link to="/person-report">Отчеты по печам</router-link>
-        <router-link to="/part-report">Отчеты по партиям</router-link> -->
-        <router-link to="/view-data">Перейти к работе</router-link>
-    </div>
+    <main class="main">
+        <div class="home">
+            <h1>Участок обжига</h1> 
+            Программа для ведения электронного журнала. 
+
+            <h2>Краткое руководство:</h2>
+            <p class = "home__par">
+                В обязанности сотрудников обжигового участка входит ведение журнала продукции и текущего состояния оборудования.
+                Данная программа дополняет эти обазанности дублированием данных в электронном виде.
+                От оператора требуется: 
+                <ol>
+                    <li>В начале смены заполнить форму <b>отчета по смене</b>, 
+                    где требуется указать температурные показатели каждой зоны, каждой печи, 
+                    не зависимо от того, к каким печам Вы прикреплены.</li>
+                    <li>При выходе партии из печи, необходимо заполнить форму <b>отчета по партии</b>, 
+                    где указываются характеристики партии и количество брака.</li>
+                    <li>При завершении работы требуется снова заполнить форму <b>отчета по смене</b>. </li>
+                </ol>
+
+                Каждому оператору выдан личный логин и пароль для создания отчета. Эти данные нужны для идентификации оператора создавшего отчет и недопущения халатного отношения к созданию отчетов. Пожалуйста, не пердавайте данные другим сотрудникам. 
+            </p>
+            <!-- <router-link to="/person-report">Отчеты по печам</router-link>
+            <router-link to="/part-report">Отчеты по партиям</router-link> -->
+            <router-link class="home__button" to="/view-data">Перейти к работе</router-link>
+        </div>
+    </main>
+    
 </template>
 
+<style lang="less">
+    .main {
+        width: auto;
+        margin: 0 auto;
+    }
+    .home {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 600px;
+        &__button {
+            width: 300px;
+
+            padding: 10px;
+            border: 1px solid #555555;
+            border-radius: 5px;
+
+            &:hover {
+                background-color: #eeeeee;
+            }
+            text-decoration: none;
+            color: #555555;
+
+            margin-top: 20px;
+        }
+
+        &__par {
+            text-align: left;
+        }
+    } 
+
+        
+</style>

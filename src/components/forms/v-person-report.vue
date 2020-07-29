@@ -2,31 +2,41 @@
     <section class="person-report">
         <h2>Создание отчета по смене</h2>
         <form action="/person-report" method="post">
-            <fieldset>
-                <legend>
-                    Оператор:
-                </legend>
-                <input type="text" name="login" v-model="login" placeholder="Логин">
-                <input type="password" name="password" v-model="password" placeholder="Пароль">
-            </fieldset>
-            <fieldset>
+            <div class="wrapper">
+                <fieldset class="form__field auth">
+                    <legend class="field__legend">
+                        Оператор:
+                    </legend>
+                    <input type="text" class="auth__text" name="login" v-model="login" placeholder="Логин">
+                    <input type="password" class="auth__text" name="password" v-model="password" placeholder="Пароль">
+                </fieldset>
+                <fieldset class="form__field field">
+        
+                    <legend class="field__legend">Особые отметки</legend>
+        
+                    <textarea class="field__area"  placeholder="Выключение электричества, поломки и прочее..."></textarea>
+        
+                </fieldset>
+            </div>
+            <div class="wrapper">
+            <fieldset class="form__field tonel">
                 <legend>
                     Печь 1
                 </legend>
-                <input type="text" name="" v-model="packs[0].z1" placeholder="Зона 1">
-                <input type="text" name="" v-model="packs[0].z2" placeholder="Зона 2">
-                <input type="text" name="" v-model="packs[0].z3" placeholder="Зона 3">
-                <input type="text" name="" v-model="packs[0].z4_1" placeholder="Зона 4 верх">
-                <input type="text" name="" v-model="packs[0].z4_2" placeholder="Зона 4 низ">
-                <input type="text" name="" v-model="packs[0].z5_1" placeholder="Зона 5 верх">
-                <input type="text" name="" v-model="packs[0].z5_2" placeholder="Зона 5 низ">
-                <input type="text" name="" v-model="packs[0].z6_1" placeholder="Зона 6 верх">
-                <input type="text" name="" v-model="packs[0].z6_2" placeholder="Зона 6 низ">
-                <input type="text" name="" v-model="packs[0].z7_1" placeholder="Зона 7 верх">
-                <input type="text" name="" v-model="packs[0].z7_2" placeholder="Зона 7 низ">
-                <input type="text" name="" v-model="packs[0].z8" placeholder="Зона 8">
+                <input type="text" class="tonel__text" name="" v-model="packs[0].z1" placeholder="Зона 1">
+                <input type="text" class="tonel__text" name="" v-model="packs[0].z2" placeholder="Зона 2">
+                <input type="text" class="tonel__text" name="" v-model="packs[0].z3" placeholder="Зона 3">
+                <input type="text" class="tonel__text" name="" v-model="packs[0].z4_1" placeholder="Зона 4 верх">
+                <input type="text" class="tonel__text" name="" v-model="packs[0].z4_2" placeholder="Зона 4 низ">
+                <input type="text" class="tonel__text" name="" v-model="packs[0].z5_1" placeholder="Зона 5 верх">
+                <input type="text" class="tonel__text" name="" v-model="packs[0].z5_2" placeholder="Зона 5 низ">
+                <input type="text" class="tonel__text" name="" v-model="packs[0].z6_1" placeholder="Зона 6 верх">
+                <input type="text" class="tonel__text" name="" v-model="packs[0].z6_2" placeholder="Зона 6 низ">
+                <input type="text" class="tonel__text" name="" v-model="packs[0].z7_1" placeholder="Зона 7 верх">
+                <input type="text" class="tonel__text" name="" v-model="packs[0].z7_2" placeholder="Зона 7 низ">
+                <input type="text" class="tonel__text" name="" v-model="packs[0].z8" placeholder="Зона 8">
             </fieldset>
-<fieldset>
+            <fieldset class="form__field tonel">
                 <legend>
                     Печь 2
                 </legend>
@@ -43,7 +53,7 @@
                 <input type="text" name="" v-model="packs[1].z7_2" placeholder="Зона 7 низ">
                 <input type="text" name="" v-model="packs[1].z8" placeholder="Зона 8">
             </fieldset>
-            <fieldset>
+            <fieldset class="form__field tonel">
                 <legend>
                     Печь 3
                 </legend>
@@ -60,7 +70,21 @@
                 <input type="text" name="" v-model="packs[2].z7_2" placeholder="Зона 7 низ">
                 <input type="text" name="" v-model="packs[2].z8" placeholder="Зона 8">
             </fieldset>
-             <button type="button" class="" @click="send">Создать отчет</button>
+             <fieldset class="form__field tonel">
+                <legend>
+                    ТермоТренировка
+                </legend>
+                <input type="text" name="" v-model="packs[3].z1" placeholder="Зона 1">
+                <input type="text" name="" v-model="packs[3].z2" placeholder="Зона 2">
+                <input type="text" name="" v-model="packs[3].z3" placeholder="Зона 3">
+                <input type="text" name="" v-model="packs[3].z4" placeholder="Зона 4">
+            </fieldset>
+            </div>
+            <div class="wrapper">
+                <button type="button" class="form__button" @click="send">Создать отчет</button>
+                <button type="button" class="form__button" @click="clear">Очистить поля</button>
+            </div>
+            
         </form>
     </section>
 </template>
@@ -73,7 +97,7 @@ export default {
         login: '',
         password: '',
         packs: [
-            {},{},{}
+            {},{},{},{}
         ]
         }
   },
@@ -91,11 +115,26 @@ export default {
             this.$store.dispatch('POST_PERSON_REPORT_TO_API', item)
         })
         
+    },
+    clear() {
+        console.log();
     }
   },
 }
 </script>
 
-<style>
+<style lang="less">
+    .person-report {
+        width: 800px;
+    }
+    .tonel {
+        // display: flex;
+        // flex-direction: row;
+        // flex-wrap: wrap;
+        
+        &__text {
+
+        }
+    }
 
 </style>

@@ -1,8 +1,6 @@
 <template>
     <section class="data">
-        <object class="v-table__sort" type="image/svg+xml" data="@/assets/unfold_more.svg" >
-                            <img src="@/assets/abc_sort.svg">
-                        </object>
+        
         <table class="v-table">
             <thead >
                 <tr class="v-table__header">
