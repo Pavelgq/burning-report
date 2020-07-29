@@ -1,40 +1,22 @@
 <template>
     <section class="part-report">
-    
         <h2>Создание отчета по партии</h2>
-    
         <form action="/part-report" method="post" class='form'>
-    
             <div class="wrapper">
-    
                 <fieldset class="form__field auth">
-    
                     <legend class="field__legend">
-    
                         Оператор
-    
                     </legend>
-                    
                     <input type="text" class="auth__text" name="login" v-model="login" placeholder="Логин">
-    
                     <input type="password" class="auth__text" name="password" v-model="password" placeholder="Пароль">
-    
                 </fieldset>
-    
                 <fieldset class="form__field part">
-    
                     <legend class="field__legend">Партия</legend>
-    
                     <input type="text" class="part__text" name="" v-model="pack.aPartNumber" placeholder="№ партии">
-    
                     <input type="text" class="part__text" name="" v-model="pack.bQuantity" placeholder="Количество">
-    
                     <input type="text" class="part__text" name="" v-model="pack.cFurNumber" placeholder="№ печи">
-    
                 </fieldset>
-    
             </div>
-    
             <div class="wrapper">
     
                 <fieldset class="form__field reg">
