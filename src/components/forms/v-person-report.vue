@@ -96,12 +96,14 @@
                 <button type="button" class="form__button" @click="send">Создать отчет</button>
                 <button type="button" class="form__button" @click="clear">Очистить поля</button>
             </div>
-            <v-furnace  
-                v-for="furnance in furnances"
-                v-bind:key="furnance.id"
-                v-bind:furnance="furnance"
-                
-            ></v-furnace>
+            <div class="wrapper">
+                <v-furnace  
+                    v-for="furnance in furnances"
+                    v-bind:key="furnance.id"
+                    v-bind:furnance="furnance"
+                    v-on:data-change="onData"
+                ></v-furnace>
+            </div>
         </form>
     </section>
 </template>
@@ -119,6 +121,7 @@ export default {
         packs: [
             {},{},{},{}
         ],
+        data: [],
         furnances:[
             {id: 1, area: 12},
             {id: 2, area: 12},
@@ -156,6 +159,11 @@ export default {
     },
     clear() {
         console.log("I am working");
+    },
+
+    onData(event) {
+        console.log(event);
+        this.data.push(event)
     }
   },
 
