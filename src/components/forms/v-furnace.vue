@@ -7,19 +7,12 @@
         v-for="zone in dataZones"
         v-bind:key="zone.id"
         v-bind:zone="zone"
+
+        v-on:data-change="readData"
+
+        
+        
     ></v-zone>
-    <!-- <input type="text" class="tonel__text" name="" v-model="packs[0].z1" placeholder="Зона 1">
-    <input type="text" class="tonel__text" name="" v-model="packs[0].z2" placeholder="Зона 2">
-    <input type="text" class="tonel__text" name="" v-model="packs[0].z3" placeholder="Зона 3">
-    <input type="text" class="tonel__text" name="" v-model="packs[0].z4_1" placeholder="Зона 4 верх">
-    <input type="text" class="tonel__text" name="" v-model="packs[0].z4_2" placeholder="Зона 4 низ">
-    <input type="text" class="tonel__text" name="" v-model="packs[0].z5_1" placeholder="Зона 5 верх">
-    <input type="text" class="tonel__text" name="" v-model="packs[0].z5_2" placeholder="Зона 5 низ">
-    <input type="text" class="tonel__text" name="" v-model="packs[0].z6_1" placeholder="Зона 6 верх">
-    <input type="text" class="tonel__text" name="" v-model="packs[0].z6_2" placeholder="Зона 6 низ">
-    <input type="text" class="tonel__text" name="" v-model="packs[0].z7_1" placeholder="Зона 7 верх">
-    <input type="text" class="tonel__text" name="" v-model="packs[0].z7_2" placeholder="Зона 7 низ">
-    <input type="text" class="tonel__text" name="" v-model="packs[0].z8" placeholder="Зона 8"> -->
   </fieldset>
 </template>
 
@@ -46,7 +39,8 @@ export default {
                z7_1: 'Зона 7 верх',
                z7_2: 'Зона 7 низ',
                z8: 'Зона 8',
-           }
+           },
+           pack: []
         }
     },
     components: {
@@ -85,6 +79,24 @@ export default {
         }
     },
     methods: {
+        readData: function (event) {
+            let target = this.pack.some( (element) => {
+                if (element.id == event.id) {
+                   element.temp = event.temp;
+                   return true;
+                }
+
+            })
+            if (!target) {
+                this.pack.push(event)
+            }
+           const mas = this.dataZones;
+            console.log(mas.length, this.pack.length)
+            if (mas.lenght == this.pack.lenght) {
+                 this.$emit('data-pack', this.pack);
+            }
+               
+        },
         
     }
 
