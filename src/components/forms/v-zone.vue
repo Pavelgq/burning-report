@@ -7,11 +7,13 @@ export default {
     name: 'v-zone',
     props: {
         zone: Object,
-        label: String
+        label: String,
+        furId: Number
     },
     data() {
         return {
             pack: {
+                furId: this.furId,
                 id: this.zone.id
             }
         }

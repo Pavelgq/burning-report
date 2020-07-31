@@ -66,11 +66,21 @@ app.post('/report/:name', async (async (req, res) => {
     const params = data.pack
     console.log(params);
     let fields = '';
-    for (const key in params) {
-        
-        fields += `, '${params[key]}'`;
-        
+    for (let i = 0; i < 12; i++) {
+        const element = params[i];
+        if (element) {
+            fields += `, '${element}'`;
+        }else {
+            fields += `, '0'`;
+        }
     }
+    fields += `, '${data.furNum}'`;
+    fields += `, '${data.comment}'`;
+    // for (const key in params) {
+        
+    //     fields += `, '${params[key]}'`;
+        
+    // }
      console.log(fields)
     let query = `select Person.ID from Person where Person.Login='${data.login}' and Person.Password='${data.password}'`;
     const answer = await runQuery(query).catch(err => {
@@ -89,7 +99,7 @@ app.post('/report/:name', async (async (req, res) => {
                 });
                 res.json(result);
 
-            }else {
+            } else {
                 console.log('Логин и пароль не верны');
                 res.json({error: 'user not find'});
                 //Отвечаем ошибкой
