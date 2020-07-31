@@ -7,11 +7,8 @@
         v-for="zone in dataZones"
         v-bind:key="zone.id"
         v-bind:zone="zone"
-
+        v-bind:furId="furnance.id"
         v-on:data-change="readData"
-
-        
-        
     ></v-zone>
   </fieldset>
 </template>
@@ -21,7 +18,6 @@ import vZone from './v-zone';
 export default {
     name: 'v-furnace',
     props: {
-        
         furnance: Object
     },
     data() {
@@ -40,7 +36,7 @@ export default {
                z7_2: 'Зона 7 низ',
                z8: 'Зона 8',
            },
-           pack: []
+           pack: {}
         }
     },
     components: {
@@ -52,7 +48,7 @@ export default {
     computed: {
         furnanceName() {
             if (this.furnance.id == 4) {
-                return `ТермоТренировка (${this.furnance.id})`
+                return `ТермоТренировка (${this.furnance.id})`;
             } else {
                 return `Печь ${this.furnance.id}`;
             }
@@ -70,7 +66,7 @@ export default {
                 }
             
                 const element = this.zones[key];
-                mas.push({'name': element, 'id': count, });
+                mas.push({'name': element, 'id': count, furId: this.furnance.id });
                 
             }
             console.log(mas)
@@ -80,22 +76,8 @@ export default {
     },
     methods: {
         readData: function (event) {
-            let target = this.pack.some( (element) => {
-                if (element.id == event.id) {
-                   element.temp = event.temp;
-                   return true;
-                }
-
-            })
-            if (!target) {
-                this.pack.push(event)
-            }
-           const mas = this.dataZones;
-            console.log(mas.length, this.pack.length)
-            if (mas.lenght == this.pack.lenght) {
-                 this.$emit('data-pack', this.pack);
-            }
-               
+            this.pack = event;
+            this.$emit('data-pack', this.pack);
         },
         
     }
