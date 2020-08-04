@@ -1,82 +1,75 @@
 <template>
-    <section class="data">
-        <table class="v-table">
-            <thead>
-                <tr class="v-table__header">
-                    <th>Оператор
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-                    <th>№печи
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-                    <th>№1    
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-                    <th>№2
-    
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-    
-                    </th>
-    
-                    <th>№3
-                      <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-                    <th>№4<sub>в</sub>
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-                     <th>№4<sub>н</sub>
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-                    <th>№5<sub>в</sub>
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-                    <th>№5<sub>н</sub>
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-                    <th>№6<sub>в</sub>
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-                    <th>№6<sub>н</sub>
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-                    <th>№7<sub>в</sub>
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-                    <th>№7<sub>н</sub>
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-    
-                    <th>№8
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-    
-                    <th>Дата
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-    
-                    <th class="row__comment">Комментарий
-                        <img src="@/assets/unfold_more.svg" alt="Vue Logo" height="15" width="18">
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="v-table__body">
-                <v-table-row v-for="row in pageinatedRows" :key="row.id" :row_data="row" />
+<section class="data">
+    <table class="v-table">
+        <thead>
+            <tr class="v-table__header">
+                <th>
+                    <button @click="sortByString" class="v-table__button" data-id="last_name">Оператор</button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="Furnace_number">№печи</button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="zone_1">№1</button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="zone_2">№2</button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="zone_3">№3</button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="zone_4_up">№4<sub>в</sub></button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="zone_4_down">№4<sub>н</sub></button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="zone_5_up">№5<sub>в</sub></button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="zone_5_down">№5<sub>н</sub></button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="zone_6_up">№6<sub>в</sub></button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="zone_6_down">№6<sub>н</sub></button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="zone_7_up">№7<sub>в</sub></button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="zone_7_down">№7<sub>н</sub></button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="zone_8">№8</button>
+                </th>
+                <th>
+                    <button @click="sortByString" class="v-table__button" data-id="date">Дата</button>
+                </th>
+                <th class="row__comment">
+                    <button @click="sortByString" class="v-table__button" data-id="changes">Комментарий</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="v-table__body">
+            <v-table-row v-for="row in pageinatedRows" :key="row.id" :row_data="row" />
 
-            </tbody>
-        </table>
-    
-        <div class="v-table__pagination">
+        </tbody>
+    </table>
 
-            <div class="page" v-for="page in pages" :key="page" :class="{'page__selected': page === pageNumber}" @click="pageClick(page)">{{page}}</div>
+    <div class="v-table__pagination">
 
-        </div>
-    
-    </section>
+        <div class="page" v-for="page in pages" :key="page" :class="{'page__selected': page === pageNumber}" @click="pageClick(page)">{{page}}</div>
+
+    </div>
+
+</section>
 </template>
 
 <script>
 import vTableRow from './v-table-row'
-
 
 export default {
     name: "v-table-report",
@@ -113,13 +106,19 @@ export default {
             this.pageNumber = page;
         },
         sortByNum(event) {
-            const name = event.target.closest("P").outerText;
-            console.log(name)
-            this.person_data.sort((a, b) => (a[name]) > (b[name]) ? 1 : -1);
+            const element = event.target.closest("BUTTON");
+            const name = element.getAttribute("data-id");
+            this.part_data.sort((a, b) => (a[name]) > (b[name]) ? 1 : -1);
         },
         sortByString(event) {
-            const name = event.target.closest("P").outerText;
-            this.person_data.sort((a, b) => (a[`${name}`]).localeCompare(b[name]));
+            const element = event.target.closest("BUTTON");
+            const name = element.getAttribute("data-id");
+            console.log(name)
+            this.part_data.sort((a, b) => {
+                const str = a[name] || ' ';
+                const str1 = b[name] || ' ';
+                str.localeCompare(str1);
+            });
         }
     }
 }
