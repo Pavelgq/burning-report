@@ -1,16 +1,19 @@
 <template>
-    <main class="main">
-        <v-menu @changeTab='onTab'></v-menu>
-        <v-part-report v-if="currentTab == 'part_report'"></v-part-report>
-        <v-person-report v-if="currentTab == 'person_report'"></v-person-report>
-        <v-table-part v-if="currentTab == 'part'"  @waitNewData="sendData" :part_data="PART_DATA"></v-table-part>
-        <v-table-report v-if="currentTab == 'person'" @waitNewData="sendData" :person_data="PERSON_DATA"></v-table-report>
-        
-    </main>
+<main class="main">
+    <v-menu @changeTab='onTab'></v-menu>
+    <v-part-report v-if="currentTab == 'part_report'"></v-part-report>
+    <v-person-report v-if="currentTab == 'person_report'"></v-person-report>
+    <v-table-part v-if="currentTab == 'part'" @waitNewData="sendData" :part_data="PART_DATA"></v-table-part>
+    <v-table-report v-if="currentTab == 'person'" @waitNewData="sendData" :person_data="PERSON_DATA"></v-table-report>
+
+</main>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex';
+import {
+    mapActions,
+    mapGetters
+} from 'vuex';
 import vTablePart from './table-part/v-table-part';
 import vTableReport from './table-report/v-table-report';
 import vPartReport from './forms/v-part-report';
@@ -51,15 +54,15 @@ export default {
     },
     mounted() {
         this.GET_PART_DATA_FROM_API(),
-        this.GET_PERSON_DATA_FROM_API()
+            this.GET_PERSON_DATA_FROM_API()
     }
 }
 </script>
 
 <style>
-    .main {
-       display: flex;
-       flex-direction: column;
-       align-items: center;
-    }
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 </style>

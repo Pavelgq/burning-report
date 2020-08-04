@@ -1,68 +1,63 @@
 <template>
-    <section class="data">
-        
-        <table class="v-table">
-            <thead >
-                <tr class="v-table__header">
-                    <th>
-                        <button @click="sortByString" class="v-table__button" data-id="last_name">Оператор</button>
-                    </th>
-                    <th>
-                        <button @click="sortByString" class="v-table__button" data-id="lot_id">Партия</button>
-                    </th>
-                    <th>
-                        <button @click="sortByNum"  class="v-table__button" data-id="number_of_items">Всего</button>
-                    </th>
-                    <th>
-                        <button @click="sortByNum" class="v-table__button" data-id="furnace_number">Печь</button>
-                    </th>
-                    <th>
-                        <button @click="sortByNum" class="v-table__button" data-id="tv">T<sub>в</sub></button>
-                    </th>
-                    <th>
-                        <button @click="sortByNum" class="v-table__button" data-id="tn">T<sub>н</sub></button>
-                    </th>
-                    <th>
-                        <button @click="sortByNum" class="v-table__button" data-id="tv">T<sub>в</sub></button>
-                    </th>
-                    <th>
-                        <button @click="sortByNum" class="v-table__button" data-id="tn">T<sub>н</sub></button>
-                    </th>
+<section class="data">
 
-                    <th>
-                        <button @click="sortByNum" class="v-table__button" data-id="defect_t">Трещины</button>
-                    </th>
-                    <th>
-                        <button @click="sortByNum" class="v-table__button" data-id="defect_s">Сколы</button>
-                    </th>
-                    <th>
-                        <button @click="sortByNum" class="v-table__button" data-id="defect_p">Прыщи</button>
-                    </th>
-    
-                    <th>
-                        <button @click="sortByNum" class="v-table__button" data-id="data">Дата</button>
-                    </th>
-    
-                    <th class="row__comment">
-                        <button @click="sortByString" class="v-table__button" data-id="changes">Комментарий</button>
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="v-table__body">
-    
-                <v-table-row v-for="row in pageinatedRows" :key="row.id" :row_data="row" />
-    
-            </tbody>
-        </table>
-        <div class="v-table__pagination">
-            <div class="page"
-                v-for="page in pages"
-                :key="page"
-                :class="{'page__selected': page === pageNumber}"
-                @click="pageClick(page)"
-            >{{page}}</div>
-        </div>
-    </section>
+    <table class="v-table">
+        <thead>
+            <tr class="v-table__header">
+                <th>
+                    <button @click="sortByString" class="v-table__button" data-id="last_name">Оператор</button>
+                </th>
+                <th>
+                    <button @click="sortByString" class="v-table__button" data-id="lot_id">Партия</button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="number_of_items">Всего</button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="furnace_number">Печь</button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="tv">T<sub>в</sub></button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="tn">T<sub>н</sub></button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="tv">T<sub>в</sub></button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="tn">T<sub>н</sub></button>
+                </th>
+
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="defect_t">Трещины</button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="defect_s">Сколы</button>
+                </th>
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="defect_p">Прыщи</button>
+                </th>
+
+                <th>
+                    <button @click="sortByNum" class="v-table__button" data-id="data">Дата</button>
+                </th>
+
+                <th class="row__comment">
+                    <button @click="sortByString" class="v-table__button" data-id="changes">Комментарий</button>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="v-table__body">
+
+            <v-table-row v-for="row in pageinatedRows" :key="row.id" :row_data="row" />
+
+        </tbody>
+    </table>
+    <div class="v-table__pagination">
+        <div class="page" v-for="page in pages" :key="page" :class="{'page__selected': page === pageNumber}" @click="pageClick(page)">{{page}}</div>
+    </div>
+</section>
 </template>
 
 <script>
@@ -101,7 +96,10 @@ export default {
     methods: {
         pageClick(page) {
             this.pageNumber = page;
-            this.$emit('waitNewData', { numberPage: this.pageNumber, pageOnScreen: this.rowPerPage });
+            this.$emit('waitNewData', {
+                numberPage: this.pageNumber,
+                pageOnScreen: this.rowPerPage
+            });
         },
         sortByNum(event) {
             const element = event.target.closest("BUTTON");
@@ -115,7 +113,7 @@ export default {
             this.part_data.sort((a, b) => {
                 const str = a[name] || ' ';
                 const str1 = b[name] || ' ';
-                    str.localeCompare(str1);
+                str.localeCompare(str1);
             });
         }
     }
@@ -166,12 +164,13 @@ td:first-child {
     color: #3e3e3e;
 }
 
-.v-table__pagination { 
+.v-table__pagination {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 30px;
-} 
+}
+
 .v-table__header th {
     cursor: pointer;
 }
@@ -195,42 +194,42 @@ td:first-child {
 }
 
 .v-table__button {
-  background-color: transparent;
-  border: 1px solid #eeeeee6e;
-  cursor: pointer;
-  overflow: hidden;
-  padding: .75em 2.25em .75em 1em;
-  position: relative;
-  color: #ffffff;
+    background-color: transparent;
+    border: 1px solid #eeeeee6e;
+    cursor: pointer;
+    overflow: hidden;
+    padding: .75em 2.25em .75em 1em;
+    position: relative;
+    color: #ffffff;
 }
 
 .v-table__button:before,
 .v-table__button:after {
-  border-style: solid;
-  border-width: 8px 5px;
-  border-color: transparent;
-  content: '';
-  height: 0;
-  position: absolute;
+    border-style: solid;
+    border-width: 8px 5px;
+    border-color: transparent;
+    content: '';
+    height: 0;
+    position: absolute;
     right: 10px;
-  width: 0;
+    width: 0;
 }
 
 .v-table__button:before {
-  border-bottom-color: #ccc;
-  top: 0;
+    border-bottom-color: #ccc;
+    top: 0;
 }
 
 .v-table__button:after {
-  border-top-color: #ccc;
-  bottom: 0;
+    border-top-color: #ccc;
+    bottom: 0;
 }
 
 .asc:before {
-  border-bottom-color: #777;
+    border-bottom-color: #777;
 }
 
 .desc:after {
-  border-top-color: #777;
+    border-top-color: #777;
 }
 </style>
