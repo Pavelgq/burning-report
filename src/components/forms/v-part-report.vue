@@ -1,6 +1,14 @@
 <template>
 <section class="part-report">
     <h2>Создание отчета по партии</h2>
+
+    <p v-if="errors.length">
+        <b>Пожалуйста исправьте указанные ошибки:</b>
+        <ul>
+            <li class="form__group--error" v-for="error in errors" :key="error">{{ error }}</li>
+        </ul>
+    </p>
+
     <form id="part-report-form" method="post" class='form' @submit.prevent="submitForm">
         <div class="wrapper">
             <fieldset class="form__field auth">
@@ -80,6 +88,7 @@ export default {
     name: 'v-part-report',
     data() {
         return {
+            errors: [],
             login: '',
             password: '',
             partNumber: '',
@@ -124,11 +133,11 @@ export default {
             numeric
         },
         t3: {
-            
+
             numeric
         },
         t4: {
-            
+
             numeric
         },
         defT: {
@@ -154,23 +163,45 @@ export default {
             this.sendData();
         },
         sendData() {
+            this.errors = [];
+            this.pack = [this.partNumber, this.quant, this.furID, this.t1, this.t2, this.t3 ? this.t3 : 0, this.t4 ? this.t4 : 0, this.defT, this.defS, this.defP, this.changes]
+
             let item = {
                 login: this.login,
                 password: this.password,
                 pack: this.pack
             };
-            this.$store.dispatch('POST_PART_REPORT_TO_API', item)
+            console.log(item);
+            this.$store.dispatch('POST_PART_REPORT_TO_API', item).then(() => {
+                console.log(this.$store.getters.PART_REPORT['error'])
+                if (this.$store.getters.PART_REPORT['error'] !== undefined) {
+                    this.errors.push(this.$store.getters.PART_REPORT.error);
+                    console.log("я тут")
+                } else {
+                this.clear();
+                }
+            });
+
         },
         clear() {
-            const form = document.getElementById('part-report-form');
-            form.reset();
-            this.$v.$reset();
+            this.errors = [];
+            this.login = '';
+            this.password = '';
+            this.partNumber = '';
+            this.quant = '';
+            this.furID = '';
+            this.t1 = '';
+            this.t2 = '';
+            this.t3 = '';           
+            this.t4 = '';
+            this.defT = '';
+            this.defS = '';
+            this.defP = '';
+            this.changes = '';
         },
     },
     action: {
-        //   sendReport() {
-        //       ;
-        //   }
+
     }
 }
 </script>

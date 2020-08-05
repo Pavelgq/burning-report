@@ -18,7 +18,7 @@ const sqlConfig = {
     driver: 'msnodesqlv8',
     database: 'varistor_production_db',
     options: {
-       
+
         // "encrypt": true,
         // "enableArithAbort" : true
     }
@@ -37,7 +37,7 @@ app.use((req, res, next) => {
     res.header(`Access-Control-Allow-Headers`, `Origin, X-Requested-With, Content-Type, Accept`);
     //res.header('Content-Type', 'form-data')
     next();
-  });
+});
 
 app.get('/data/:name', async function (req, res) {
     sql.connect(sqlConfig, function (err) {
@@ -47,63 +47,76 @@ app.get('/data/:name', async function (req, res) {
         console.log(params);
         let fields = '';
         params.forEach(element => {
-            fields += `, ${req.params.name}.${element} `; 
+            fields += `, ${req.params.name}.${element} `;
         });
-         console.log(fields)
+        console.log(fields)
         request.query(`select Person.first_name, Person.last_name ${fields} from ${req.params.name}, Person WHERE ${req.params.name}.Person_ID = Person.ID`, function (err, resp) {
             if (err) {
                 console.log(err);
             };
-           
+
             res.json(resp.recordset); // результат в формате JSON
             sql.close(); // закрываем соединение с базой данных
         });
     });
 });
+
 app.post('/report/:name', async (async (req, res) => {
     const data = await req.body;
     const dbname = req.params.name;
     const params = data.pack
     console.log(params);
     let fields = '';
-    for (let i = 0; i < 12; i++) {
-        const element = params[i];
-        if (element) {
-            fields += `, '${element}'`;
-        }else {
-            fields += `, '0'`;
+    if (dbname == "Burning_person") {
+        for (let i = 0; i < 12; i++) {
+            const element = params[i];
+            if (element) {
+                fields += `, '${element}'`;
+            } else {
+                fields += `, '0'`;
+            }
         }
+
+        fields += `, '${data.furNum}'`;
+        fields += `, '${data.comment}'`;
     }
-    fields += `, '${data.furNum}'`;
-    fields += `, '${data.comment}'`;
-    // for (const key in params) {
-        
-    //     fields += `, '${params[key]}'`;
-        
-    // }
-     console.log(fields)
+    else {
+        for (let i = 0; i < params.length; i++) {
+            const element = params[i];
+            
+            fields += `, '${element}'`;
+           
+    }
+}
+    console.log(fields)
     let query = `select Person.ID from Person where Person.Login='${data.login}' and Person.Password='${data.password}'`;
     const answer = await runQuery(query).catch(err => {
         console.log(err);
+        
     });
     if (answer.recordset.length > 0) {
-                console.log('Логин и пароль верны');
-                let personID = answer.recordset[0].ID;
+        console.log('Логин и пароль верны');
+        let personID = answer.recordset[0].ID;
 
-                // Узнаем ID пользователя
-                query = `insert ${dbname} VALUES ('${personID}', '${moment().format()}' ${fields})`;
-                
-                console.log(query);
-                let result = await runQuery(query).catch(err => {
-                    console.log(err);
-                });
-                res.json(result);
+        // Узнаем ID пользователя
+        query = `insert ${dbname} VALUES ('${personID}', '${moment().format()}' ${fields})`;
 
-            } else {
-                console.log('Логин и пароль не верны');
-                res.json({error: 'user not find'});
-                //Отвечаем ошибкой
-            }
+        console.log(query);
+        let result = await runQuery(query).catch(err => {
+            console.log(err);
+        });
+        res.json(result);
+
+    } else {
+        console.log('Логин и пароль не верны');
+        res.json({
+            error: 'Пользователь не найден'
+        });
+        // res.json({
+        //     error: 'Данные неверного формата'
+        // });
+        //Отвечаем ошибкой
+    }
 }));
 
 
