@@ -1,46 +1,70 @@
 <template>
 <section class="part-report">
     <h2>Создание отчета по партии</h2>
-    <form action="/part-report" method="post" class='form'>
+    <form id="part-report-form" method="post" class='form' @submit.prevent="submitForm">
         <div class="wrapper">
             <fieldset class="form__field auth">
                 <legend class="field__legend">
                     Оператор
                 </legend>
-                <input type="text" class="form__input auth__text" name="login" v-model="login" placeholder="Логин">
-                <input type="password" class="form__input auth__text" name="password" v-model="password" placeholder="Пароль">
+                <div class="form__group" :class="{ 'form__group--error': $v.login.$error }">
+                    <input type="text" class="form__input auth__text" :class="{'form__error':($v.login.$dirty && !$v.login.required) }" v-model.trim="login" placeholder="Логин">
+                </div>
+                <div class="form__group" :class="{ 'form__group--error': $v.password.$error }">
+                    <input type="password" class="form__input auth__text" :class="{'form__error':($v.password.$dirty && !$v.password.required) }" name="password" v-model.trim="password" placeholder="Пароль">
+                </div>
             </fieldset>
             <fieldset class="form__field part">
                 <legend class="field__legend">Партия</legend>
-                <input type="text" class="form__input part__text" name="" v-model="pack.aPartNumber" placeholder="№ партии">
-                <input type="text" class="form__input part__text" name="" v-model="pack.bQuantity" placeholder="Количество">
-                <input type="text" class="form__input part__text" name="" v-model="pack.cFurNumber" placeholder="№ печи">
+                <div class="form__group" :class="{ 'form__group--error': $v.partNumber.$error }">
+                    <input type="text" class="form__input part__text" :class="{'form__error':($v.partNumber.$dirty && !$v.partNumber.required) }" v-model="partNumber" placeholder="№ партии">
+                </div>
+                <div class="form__group" :class="{ 'form__group--error': $v.quant.$error }">
+                    <input type="text" class="form__input part__text" :class="{'form__error':($v.quant.$dirty && !$v.quant.required || !$v.quant.numeric) }" v-model="quant" placeholder="Количество">
+                </div>
+                <div class="form__group" :class="{ 'form__group--error': $v.furID.$error }">
+                    <input type="text" class="form__input part__text" :class="{'form__error':($v.furID.$dirty && !$v.furID.required || !$v.furID.numeric) }" v-model="furID" placeholder="№ печи">
+                </div>
             </fieldset>
         </div>
         <div class="wrapper">
             <fieldset class="form__field reg">
                 <legend class="field__legend">Режим</legend>
-                <input type="text" class="form__input reg__text" name="" v-model="pack.dZoneUp" placeholder="Температура верхней зоны">
-                <input type="text" class="form__input reg__text" name="" v-model="pack.eZoneDown" placeholder="Температура нижней зоны">
-                <input type="text" class="form__input reg__text" name="" v-model="pack.fZoneUp1" placeholder="t Верхняя зона">
-                <input type="text" class="form__input reg__text" name="" v-model="pack.gZoneDown1" placeholder="t Нижняя зона">
+                <div class="form__group" :class="{ 'form__group--error': $v.t1.$error }">
+                    <input type="text" class="form__input reg__text" :class="{'form__error':($v.t1.$dirty && !$v.t1.required || !$v.t1.numeric) }" v-model="t1" placeholder="Температура (Верхняя зона)">
+                </div>
+                <div class="form__group" :class="{ 'form__group--error': $v.t2.$error }">
+                    <input type="text" class="form__input reg__text" :class="{'form__error':($v.t2.$dirty && !$v.t2.required || !$v.t2.numeric) }" v-model="t2" placeholder="Температура (Нижняя зона)">
+                </div>
+                <div class="form__group" :class="{ 'form__group--error': $v.t3.$error }">
+                    <input type="text" class="form__input reg__text" :class="{'form__error':($v.t2.$dirty && !$v.t3.numeric) }" v-model="t3" placeholder="Изменение темп. (Верхняя зона)">
+                </div>
+                <div class="form__group" :class="{ 'form__group--error': $v.t4.$error }">
+                    <input type="text" class="form__input reg__text" :class="{'form__error':($v.t2.$dirty && !$v.t4.numeric) }" v-model="t4" placeholder="Изменение темп.  (Нижняя зона)">
+                </div>
             </fieldset>
             <fieldset class="form__field bad">
                 <legend class="field__legend">Брак</legend>
-                <input type="text" class="form__input bad__text" name="" v-model="pack.hDefectT" placeholder="Трещины">
-                <input type="text" class="form__input bad__text" name="" v-model="pack.iDefectS" placeholder="Сколы">
-                <input type="text" class="form__input bad__text" name="" v-model="pack.jDefectP" placeholder="Прыщи">
+                <div class="form__group" :class="{ 'form__group--error': $v.defT.$error }">
+                    <input type="text" class="form__input bad__text" :class="{'form__error':($v.defT.$dirty && !$v.defT.required || !$v.defT.numeric) }" v-model="defT" placeholder="Трещины">
+                </div>
+                <div class="form__group" :class="{ 'form__group--error': $v.defS.$error }">
+                    <input type="text" class="form__input bad__text" :class="{'form__error':($v.defS.$dirty && !$v.defS.required || !$v.defS.numeric) }" v-model="defS" placeholder="Сколы">
+                </div>
+                <div class="form__group" :class="{ 'form__group--error': $v.defP.$error }">
+                    <input type="text" class="form__input bad__text" :class="{'form__error':($v.defP.$dirty && !$v.defP.required || !$v.defP.numeric) }" v-model="defP" placeholder="Прыщи">
+                </div>
             </fieldset>
         </div>
 
         <fieldset class="form__field field">
             <legend class="field__legend">Особые отметки</legend>
-            <textarea class="field__area" v-model="pack.kComment" placeholder="Выключение электричества, поломки и прочее..."></textarea>
+            <textarea class="field__area" v-model="changes" placeholder="Выключение электричества, поломки и прочее..."></textarea>
         </fieldset>
 
         <div class="wrapper">
-            <button type="button" class="form__button" @click="send">Создать отчет</button>
-            <button type="button" class="form__button" @click="clear">Очистить поля</button>
+            <button type="submit" class="form__button">Создать отчет</button>
+            <button type="reset" class="form__button" @click="clear">Очистить поля</button>
         </div>
     </form>
 
@@ -48,18 +72,88 @@
 </template>
 
 <script>
+import {
+    required,
+    numeric
+} from 'vuelidate/lib/validators';
 export default {
     name: 'v-part-report',
     data() {
         return {
             login: '',
             password: '',
-            pack: {}
+            partNumber: '',
+            quant: '',
+            furID: '',
+            t1: '',
+            t2: '',
+            t3: '',
+            t4: '',
+            defT: '',
+            defS: '',
+            defP: '',
+            changes: '',
+            pack: []
 
         }
     },
+    validations: {
+        login: {
+            required,
+        },
+        password: {
+            required
+        },
+        partNumber: {
+            required
+        },
+        quant: {
+            required,
+            numeric
+        },
+        furID: {
+            required,
+            numeric
+        },
+        t1: {
+            required,
+            numeric
+        },
+        t2: {
+            required,
+            numeric
+        },
+        t3: {
+            
+            numeric
+        },
+        t4: {
+            
+            numeric
+        },
+        defT: {
+            required,
+            numeric
+        },
+        defS: {
+            required,
+            numeric
+        },
+        defP: {
+            required,
+            numeric
+        }
+
+    },
     methods: {
-        send() {
+        submitForm() {
+            if (this.$v.$invalid) {
+                this.$v.$touch();
+                return
+            }
+            this.sendData();
+        },
+        sendData() {
             let item = {
                 login: this.login,
                 password: this.password,
@@ -68,8 +162,10 @@ export default {
             this.$store.dispatch('POST_PART_REPORT_TO_API', item)
         },
         clear() {
-            console.log();
-        }
+            const form = document.getElementById('part-report-form');
+            form.reset();
+            this.$v.$reset();
+        },
     },
     action: {
         //   sendReport() {

@@ -9,6 +9,8 @@ Vue.config.productionTip = false;
 Vue.use(Vuelidate);
 
 
+export const bus = new Vue({});
+
 new Vue({
   router,
   render: h => h(App),
