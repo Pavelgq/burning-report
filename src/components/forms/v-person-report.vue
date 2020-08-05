@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import {bus} from '@/main.js';
 import {
     required
 } from 'vuelidate/lib/validators';
@@ -111,8 +112,8 @@ export default {
         clear() {
             const form = document.getElementById('person-report-form');
             form.reset();
-            this.$v.$reset()
-            console.log("I am working");
+            this.$v.$reset();
+            bus.$emit('reset_validate_all');
         },
 
         onData(event) {
@@ -124,13 +125,7 @@ export default {
         submitForm() {
             if (this.$v.$invalid) {
                 this.$v.$touch()
-                
-                const root = document.querySelector(".person-report-form");
-                const elements = root.querySelectorAll(".tonel__text");
-                elements.forEach(element => {
-                    console.log(element);
-                });
-
+                bus.$emit('validate_all');
                 return
             }
             this.sendData();
