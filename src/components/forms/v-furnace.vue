@@ -3,7 +3,7 @@
     <legend>
         {{furnanceName}}
     </legend>
-    <v-zone v-for="zone in dataZones" v-bind:key="zone.id" v-bind:zone="zone" v-bind:furId="furnance.id" v-on:data-change="readData"></v-zone>
+    <v-zone v-for="zone in dataZones" v-bind:key="zone.id" :zone="zone" :furId="furnance.id" v-on:data-change="readData" :v="$v.zone"></v-zone>
 </fieldset>
 </template>
 

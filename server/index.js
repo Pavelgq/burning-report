@@ -50,7 +50,7 @@ app.get('/data/:name', async function (req, res) {
             fields += `, ${req.params.name}.${element} `;
         });
         console.log(fields)
-        request.query(`select Person.first_name, Person.last_name ${fields} from ${req.params.name}, Person WHERE ${req.params.name}.Person_ID = Person.ID`, function (err, resp) {
+        request.query(`select TOP 200 Person.first_name, Person.last_name ${fields} from ${req.params.name}, Person WHERE ${req.params.name}.Person_ID = Person.ID Order by date DESC`, function (err, resp) {
             if (err) {
                 console.log(err);
             };
@@ -118,6 +118,7 @@ app.post('/report/:name', async (async (req, res) => {
         //Отвечаем ошибкой
     }
 }));
+
 
 
 

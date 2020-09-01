@@ -1,6 +1,6 @@
 <template>
 <div class="form__group" :class="{ 'form__group--error': $v.temp.$error }">
-    <input type="text" class="form__input tonel__text" :class="{'form__error':($v.temp.$dirty && !$v.temp.required) }" v-on:change="dataChange" v-model="temp" :placeholder="[[zone.name]]">
+    <input type="text" class="form__input tonel__text" :class="{'form__error':($v.temp.$dirty && !$v.temp.required || !$v.temp.numeric) }" v-on:change="dataChange" v-model="temp" :placeholder="[[zone.name]]">
 </div>
 </template>
 
@@ -9,7 +9,8 @@ import {
     bus
 } from '@/main.js';
 import {
-    required
+    required,
+    numeric
 } from 'vuelidate/lib/validators';
 export default {
     name: 'v-zone',
@@ -20,7 +21,8 @@ export default {
     },
     validations: {
         temp: {
-            required
+            required,
+            numeric
         }
     },
     created() {
@@ -32,6 +34,13 @@ export default {
             state.temp = '';
             state.$v.$reset();
         });
+        this.$emit('validate', state.$v);
+    },
+    inject: ['$v'],
+    provide() {
+        return {
+            $v: this.$v
+        }
     },
     data() {
         return {
@@ -47,6 +56,7 @@ export default {
         dataChange() {
             this.pack.temp = this.temp;
             this.$emit('data-change', this.pack);
+            
         },
 
     }

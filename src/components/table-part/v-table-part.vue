@@ -79,7 +79,7 @@ export default {
     data() {
 
         return {
-            rowPerPage: 10,
+            rowPerPage: 15,
             pageNumber: 1
         };
     },

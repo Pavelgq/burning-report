@@ -24,6 +24,13 @@
             </fieldset>
             <fieldset class="form__field part">
                 <legend class="field__legend">Партия</legend>
+                <div class="form__group" :class="{ 'form__group--error': $v.stage.$error }">
+                    <select v-model="stage" class="form__input part__text" :class="{'form__error':($v.stage.$dirty && !$v.stage.required) }">
+                        <option value="none">-</option>
+                        <option value="0">вход</option>
+                        <option value="1">выход</option>
+                    </select>
+                </div>
                 <div class="form__group" :class="{ 'form__group--error': $v.partNumber.$error }">
                     <input type="text" class="form__input part__text" :class="{'form__error':($v.partNumber.$dirty && !$v.partNumber.required) }" v-model="partNumber" placeholder="№ партии">
                 </div>
@@ -81,6 +88,9 @@
 
 <script>
 import {
+    bus
+} from '@/main.js';
+import {
     required,
     numeric
 } from 'vuelidate/lib/validators';
@@ -91,6 +101,7 @@ export default {
             errors: [],
             login: '',
             password: '',
+            stage: '',
             partNumber: '',
             quant: '',
             furID: '',
@@ -113,6 +124,10 @@ export default {
         password: {
             required
         },
+        stage: {
+            required,
+            numeric
+        },
         partNumber: {
             required
         },
@@ -133,11 +148,9 @@ export default {
             numeric
         },
         t3: {
-
             numeric
         },
         t4: {
-
             numeric
         },
         defT: {
@@ -156,6 +169,11 @@ export default {
     },
     methods: {
         submitForm() {
+            const state = this;
+            bus.$on('validate', function (event) {
+                console.log(event);
+                state.$v = event;
+            })
             if (this.$v.$invalid) {
                 this.$v.$touch();
                 return
@@ -164,8 +182,8 @@ export default {
         },
         sendData() {
             this.errors = [];
-            this.pack = [this.partNumber, this.quant, this.furID, this.t1, this.t2, this.t3 ? this.t3 : 0, this.t4 ? this.t4 : 0, this.defT, this.defS, this.defP, this.changes]
-
+            this.pack = [this.partNumber, this.stage, this.quant, this.furID, this.t1, this.t2, this.t3 ? this.t3 : 0, this.t4 ? this.t4 : 0, this.defT, this.defS, this.defP, this.changes]
+            console.log(this.pack)
             let item = {
                 login: this.login,
                 password: this.password,
@@ -178,7 +196,7 @@ export default {
                     this.errors.push(this.$store.getters.PART_REPORT.error);
                     console.log("я тут")
                 } else {
-                this.clear();
+                    this.clear();
                 }
             });
 
@@ -187,12 +205,13 @@ export default {
             this.errors = [];
             this.login = '';
             this.password = '';
+            this.stage = '';
             this.partNumber = '';
             this.quant = '';
             this.furID = '';
             this.t1 = '';
             this.t2 = '';
-            this.t3 = '';           
+            this.t3 = '';
             this.t4 = '';
             this.defT = '';
             this.defS = '';
