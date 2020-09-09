@@ -1,6 +1,7 @@
 <template>
 <div class="form__group" :class="{ 'form__group--error': $v.temp.$error }">
     <input type="text" class="form__input tonel__text" :class="{'form__error':($v.temp.$dirty && !$v.temp.required || !$v.temp.numeric) }" v-on:change="dataChange" v-model="temp" :placeholder="[[zone.name]]">
+    <!-- @input="input" -->
 </div>
 </template>
 
@@ -17,15 +18,27 @@ export default {
     props: {
         zone: Object,
         label: String,
-        furId: Number
+        furId: Number,
+
+        //  v: {
+        //     type: Object,
+        //     required: true
+        // },
     },
+
     validations: {
         temp: {
             required,
             numeric
         }
     },
+    watch: {
+        "$v.$invalid": function () {
+            this.$emit("returnStatusToParent", this.$v.$invalid);
+        }
+    },
     created() {
+        // console.log($v)
         const state = this;
         bus.$on('validate_all', function () {
             state.$v.$touch();
@@ -36,19 +49,13 @@ export default {
         });
         this.$emit('validate', state.$v);
     },
-    inject: ['$v'],
-    provide() {
-        return {
-            $v: this.$v
-        }
-    },
     data() {
         return {
             pack: {
                 furId: this.furId,
                 id: this.zone.id
             },
-            temp: ''
+            temp: '',
         }
     },
 
@@ -56,12 +63,21 @@ export default {
         dataChange() {
             this.pack.temp = this.temp;
             this.$emit('data-change', this.pack);
-            
+
         },
 
-    }
+    },
+    mounted() {
+        this.$eventPool.$on("touchChildForm", () => {
+            this.$v.$touch();
+            this.$emit("returnStatusToParent", this.$v.$invalid);
+        });
+    },
+    destroyed() {
+        this.$eventPool.$off("touchChildForm", () => {});
+        }
 
-}
+    }
 </script>
 
 <style>

@@ -94,14 +94,16 @@ async function addDataBase(pack) {
     const id = pack[1];
     const data =  parseInt(pack.slice(6,10), 16).toString(10);
     console.log(id,data);
-    let query = `insert Cubes VALUES ('${id}', '${moment().format()}', ${data})`;
+    if (!isNaN(data) ) {
+        let query = `insert Cubes VALUES ('${id}', '${moment().format()}', ${data})`;
 
-    console.log(query);
-    let result = await runQuery(query).catch(err => {
-        console.log(err);
-    });
+        console.log(query);
+        let result = await runQuery(query).catch(err => {
+            console.log(err);
+        });
+    }
+    
     //res.json(result);
 };
-
 
 module.exports = run;

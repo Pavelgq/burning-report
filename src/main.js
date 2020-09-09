@@ -10,6 +10,7 @@ Vue.use(Vuelidate);
 
 
 export const bus = new Vue({});
+Vue.prototype.$eventPool = new Vue();
 
 new Vue({
   router,

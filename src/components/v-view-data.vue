@@ -1,11 +1,13 @@
 <template>
 <main class="main">
+    
     <v-menu @changeTab='onTab'></v-menu>
     <v-part-report v-if="currentTab == 'part_report'"></v-part-report>
     <v-person-report v-if="currentTab == 'person_report'"></v-person-report>
     <v-table-part v-if="currentTab == 'part'" @waitNewData="sendData" :part_data="PART_DATA"></v-table-part>
     <v-table-report v-if="currentTab == 'person'" @waitNewData="sendData" :person_data="PERSON_DATA"></v-table-report>
 
+<router-link class="home__button" to="/">Инструкция</router-link>
 </main>
 </template>
 

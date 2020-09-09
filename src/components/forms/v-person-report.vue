@@ -31,7 +31,8 @@
             </fieldset>
         </div>
         <div class="wrapper">
-            <v-furnace v-for="furnance in furnances" :key="furnance.id" :furnance="furnance" v-on:data-pack="onData" :v="$v.burns"></v-furnace>
+            <v-furnace v-for="furnance in furnances" :key="furnance.id" :furnance="furnance" v-on:data-pack="onData" @returnStatusToFields="(state) => isChildReady = state"></v-furnace>
+            <!-- :v="$v.burns" -->
         </div>
         <div class="wrapper">
             <button type="submit" class="form__button">Создать отчет</button>
@@ -48,12 +49,12 @@ import {
 } from '@/main.js';
 import {
     required,
-    number
+
 } from 'vuelidate/lib/validators';
 import vFurnace from './v-furnace';
 
 export default {
-    name: 'v-part-report',
+    name: 'v-person-report',
     data() {
         return {
             burns: {
@@ -86,11 +87,10 @@ export default {
                     id: 4,
                     area: 4
                 }
-            ]
+            ],
+            isChildReady: false
         }
     },
-    provide: ['$v'],
-    
     components: {
         vFurnace
     },
@@ -101,35 +101,50 @@ export default {
         password: {
             required
         },
-         burns: {
-                zone: {
-                    required,
-                    number
-                }
-            },
+        //  burns: {
+        //         zone: {
+        //             required,
+        //             number
+        //         }
+        //     },
+    },
+    created() {
+
+    },
+    computed: {
+        prov() {
+            return this.$v
+        },
     },
     methods: {
         sendData() {
-            
+
             let count = 0;
+            let auth = {
+                login: this.login,
+                password: this.password,
+                fur: []
+            }
             this.data.forEach(pack => {
                 this.errors = [];
                 pack.number = count;
                 count += 1;
                 let item = {
-                    login: this.login,
-                    password: this.password,
                     furNum: count,
                     pack: pack,
                     comment: this.comment
                 };
-                this.$store.dispatch('POST_PERSON_REPORT_TO_API', item);
+                auth.fur.push(item);
+            });
+
+            this.$store.dispatch('POST_PERSON_REPORT_TO_API', auth).then(() => {
+                console.log(this.$store.getters.PERSON_REPORT['error'])
                 if (this.$store.getters.PERSON_REPORT['error'] !== undefined) {
                     this.errors.push(this.$store.getters.PERSON_REPORT.error);
+                    console.log("я тут")
                 } else {
                     this.clear();
                 }
-                //если успех пришел с сервера то clear();
             });
 
         },
@@ -151,7 +166,11 @@ export default {
         },
         submitForm() {
             console.log(this.$v);
-            if (this.$v.$invalid) {
+            this.isChildReady = false;
+            this.$eventPool.$emit("touchChildForm");
+            //  bus.$emit('validate_all');
+            // this.$v.$touch()
+            if (this.$v.$invalid || this.isChildReady) {
                 this.$v.$touch()
                 bus.$emit('validate_all');
                 return

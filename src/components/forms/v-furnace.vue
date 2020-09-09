@@ -3,16 +3,31 @@
     <legend>
         {{furnanceName}}
     </legend>
-    <v-zone v-for="zone in dataZones" v-bind:key="zone.id" :zone="zone" :furId="furnance.id" v-on:data-change="readData" :v="$v.zone"></v-zone>
+    <v-zone v-for="zone in dataZones" 
+    v-bind:key="zone.id" 
+    :zone="zone" 
+    :furId="furnance.id" 
+    v-on:data-change="readData" 
+    @returnStatusToParent="check"
+    ></v-zone>
+    <!-- :v="$v.zone" -->
 </fieldset>
 </template>
 
 <script>
 import vZone from './v-zone';
+// import {
+//     required,
+    
+// } from 'vuelidate/lib/validators';
 export default {
     name: 'v-furnace',
     props: {
-        furnance: Object
+        furnance: Object,
+        // v: {
+        //     type: Object,
+        //     required: true
+        // },
     },
     data() {
         return {
@@ -30,14 +45,16 @@ export default {
                 z7_2: 'Зона 7 низ',
                 z8: 'Зона 8',
             },
-            pack: {}
+            pack: {},
+            isChildReady: {}
         }
     },
     components: {
         vZone
     },
+    
     validations: {
-
+        
     },
     computed: {
         furnanceName() {
@@ -77,6 +94,14 @@ export default {
             this.pack = event;
             this.$emit('data-pack', this.pack);
         },
+        check: function (formStatus) {
+            console.log(formStatus, 'статус формы'); 
+            this.isChildReady = formStatus;
+
+            if (this.isChildReady) {
+                 this.$emit("returnStatusToFields", this.isChildReady);
+            }
+        }
 
     }
 
