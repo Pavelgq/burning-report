@@ -3,6 +3,8 @@ import Vuex from 'vuex';
 import axios from 'axios';
 //import { response } from 'express';
 
+const server = 'http://10.1.1.46:3000';
+
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -14,7 +16,7 @@ const store = new Vuex.Store({
     },
     actions: {
         GET_PART_DATA_FROM_API({commit}) {
-            return axios('http://10.1.1.46:3000/data/Burning_part?p=lot_id,number_of_items,furnace_number,tv,tn,defect_t,defect_s,defect_p,date,changes', {
+            return axios(`${server}/data/Burning_part?p=lot_id,number_of_items,furnace_number,tv,tn,defect_t,defect_s,defect_p,date,changes`, {
                 method: 'GET'
             })
             .then((response) => {
@@ -22,7 +24,7 @@ const store = new Vuex.Store({
             })
         },
         GET_PERSON_DATA_FROM_API({commit}) {
-            return axios('http://10.1.1.46:3000/data/Burning_person?p=furnace_number,zone_1,zone_2,zone_3,zone_4_up,zone_4_down,zone_5_up,zone_5_down,zone_6_up,zone_6_down,zone_7_up,zone_7_down,zone_8,date', {
+            return axios(`${server}/data/Burning_person?p=furnace_number,zone_1,zone_2,zone_3,zone_4_up,zone_4_down,zone_5_up,zone_5_down,zone_6_up,zone_6_down,zone_7_up,zone_7_down,zone_8,date`, {
                 method: 'GET'
             })
             .then((response) => {
@@ -30,7 +32,7 @@ const store = new Vuex.Store({
             })
         },
         POST_PART_REPORT_TO_API({commit}, data) {
-            return axios('http://10.1.1.46:3000/report/Burning_part', {
+            return axios(`${server}/report/Burning_part`, {
                 method: 'POST',
                 data: data
             })
@@ -40,7 +42,7 @@ const store = new Vuex.Store({
 
         },
         POST_PERSON_REPORT_TO_API({commit}, data) {
-            return axios('http://10.1.1.46:3000/report/Burning_person', {
+            return axios(`${server}/report/Burning_person`, {
                 method: 'POST',
                 data: data
             })
